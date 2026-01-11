@@ -1,0 +1,11 @@
+# Batch files (Windows scripts)
+*.cmd text eol=crlf
+
+# Shell scripts (Linux/macOS)
+*.sh text eol=lf
+
+# Maven wrapper jar (binary)
+.mvn/wrapper/maven-wrapper.jar binary
+
+# All other text files
+* text=auto
