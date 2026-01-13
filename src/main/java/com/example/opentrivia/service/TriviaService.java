@@ -23,9 +23,9 @@ public class TriviaService implements ITriviaService{
                 .retrieve()
                 .bodyToMono(OpenTriviaResponse.class)
                 .block();
-//        cacheService.saveOpenTriviaResponse("hello",response.getResults());
-//        OpenTriviaResponse response2 = cacheService.getOpenTriviaResponse("hello");
+        cacheService.saveOpenTriviaResponse("hello",response);
+        OpenTriviaResponse response2 = cacheService.getOpenTriviaResponse("hello");
 
-        return response != null ? response.getResults() : List.of();
+        return response2 != null ? response2.getResults() : List.of();
     }
 }

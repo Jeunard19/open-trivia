@@ -6,13 +6,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CacheService implements ICacheService {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, OpenTriviaResponse> redisTemplate;
 
     private static final Duration TTL = Duration.ofMinutes(15);
 
@@ -30,6 +29,8 @@ public class CacheService implements ICacheService {
         if (obj == null) return null;
         return (OpenTriviaResponse) obj;
     }
+
+
 }
 
 
