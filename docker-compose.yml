@@ -6,5 +6,15 @@ services:
     container_name: opentrivia-app
     ports:
       - "8080:8080"
+    depends_on:
+      - redis
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+
+  redis:
+    image: redis:7
+    container_name: opentrivia-redis
+    ports:
+      - "6379:6379"
