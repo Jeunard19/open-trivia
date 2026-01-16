@@ -1,6 +1,7 @@
 package com.example.opentrivia.controller;
 
-import com.example.opentrivia.dto.response.Question;
+import com.example.opentrivia.dto.response.QuestionInfo;
+import com.example.opentrivia.dto.response.QuestionPrompt;
 import com.example.opentrivia.service.ITriviaService;
 import com.example.opentrivia.service.TriviaService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class TriviaController {
     private final ITriviaService triviaService;
 
     @GetMapping()
-    public List<Question> getQuestions() {
+    public QuestionPrompt getQuestions() {
         return triviaService.getQuestions();
     }
 

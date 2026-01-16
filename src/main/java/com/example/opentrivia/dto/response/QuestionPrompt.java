@@ -7,7 +7,8 @@ import java.util.List;
 
 @Setter
 @Getter
-public class OpenTriviaResponse {
-    private int response_code;
-    private List<QuestionInfo> results;
+public class QuestionPrompt {
+    private String type;
+    private String question;
+    private List<String> options;
 }
