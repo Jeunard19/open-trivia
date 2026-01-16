@@ -1,6 +1,8 @@
 package com.example.opentrivia.service;
 
+import com.example.opentrivia.dto.request.AnswersCheckRequest;
 import com.example.opentrivia.dto.request.QuestionsRequest;
+import com.example.opentrivia.dto.response.AnswerCheckResponse;
 import com.example.opentrivia.dto.response.OpenTriviaResponse;
 import com.example.opentrivia.dto.response.QuestionInfo;
 import com.example.opentrivia.dto.response.QuestionPrompt;
@@ -10,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +26,7 @@ public class TriviaService implements ITriviaService{
         List<QuestionInfo> cachedQuestions = cacheService.getOpenTriviaResponse("questions");
         if (cachedQuestions != null && !cachedQuestions.isEmpty()) {
             cacheService.saveOpenTriviaResponse("questions",cachedQuestions);
-            cacheService.removeFirstQuestion("questions");
-            System.err.println(cachedQuestions);
+//            cacheService.removeFirstQuestion("questions");
             return mapToQuestionPrompt( cachedQuestions.get(0));
         }
         OpenTriviaResponse response = webClient.get()
@@ -34,9 +36,28 @@ public class TriviaService implements ITriviaService{
                 .block();
         cachedQuestions = response != null ? response.getResults() : null;
         cacheService.saveOpenTriviaResponse("questions",cachedQuestions);
-        cacheService.removeFirstQuestion("questions");
+//        cacheService.removeFirstQuestion("questions");
 
         return mapToQuestionPrompt(cachedQuestions != null ? cachedQuestions.get(0) : null);
+    }
+
+    @Override
+    public AnswerCheckResponse checkAnswer(String question, String answer) {
+        AnswerCheckResponse answerCheckResponse = new AnswerCheckResponse();
+        answerCheckResponse.setCorrect(false);
+
+        List<QuestionInfo> cachedQuestions =
+                new ArrayList<>(cacheService.getOpenTriviaResponse("questions"));
+
+        cacheService.removeFirstQuestion("questions");
+        Optional<QuestionInfo> questionInfo = cachedQuestions.stream()
+                .filter(q-> q.getQuestion().equals(question)).findFirst();
+        if(questionInfo.isPresent() && questionInfo.get().
+                getCorrect_answer().equals(answer)){
+            answerCheckResponse.setCorrect(true);
+            return answerCheckResponse;
+        }
+        return answerCheckResponse;
     }
 
     private QuestionPrompt mapToQuestionPrompt(QuestionInfo question){

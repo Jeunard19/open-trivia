@@ -8,6 +8,6 @@ import java.util.List;
 public interface ICacheService {
     void saveOpenTriviaResponse(String token, List<QuestionInfo> questions);
     List<QuestionInfo> getOpenTriviaResponse(String token);
-    public void removeFirstQuestion(String key);
+    void removeFirstQuestion(String key);
 
 }
