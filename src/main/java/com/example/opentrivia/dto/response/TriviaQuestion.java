@@ -7,7 +7,7 @@ import java.util.List;
 
 @Setter
 @Getter
-public class QuestionInfo {
+public class TriviaQuestion {
     private String type;
     private String difficulty;
     private String category;

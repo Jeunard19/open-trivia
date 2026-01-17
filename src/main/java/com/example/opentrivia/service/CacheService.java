@@ -1,7 +1,6 @@
 package com.example.opentrivia.service;
 
-import com.example.opentrivia.dto.response.OpenTriviaResponse;
-import com.example.opentrivia.dto.response.QuestionInfo;
+import com.example.opentrivia.dto.response.TriviaQuestion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -13,27 +12,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CacheService implements ICacheService {
 
-    private final RedisTemplate<String, List<QuestionInfo> > redisTemplate;
+    private final RedisTemplate<String, List<TriviaQuestion> > redisTemplate;
 
     private static final Duration TTL = Duration.ofMinutes(15);
 
     @Override
-    public void saveOpenTriviaResponse(String token, List<QuestionInfo> questions) {
+    public void saveOpenTriviaResponse(String token, List<TriviaQuestion> questions) {
         String key = "quiz:" + token;
         redisTemplate.opsForValue().set(key, questions, TTL);
     }
 
     @Override
-    public List<QuestionInfo> getOpenTriviaResponse(String token) {
+    public List<TriviaQuestion> getOpenTriviaResponse(String token) {
         String key = "quiz:" + token;
         Object obj = redisTemplate.opsForValue().get(key);
 
         if (obj == null) return null;
-        return (List<QuestionInfo> ) obj;
+        return (List<TriviaQuestion> ) obj;
     }
 
     public void removeFirstQuestion(String key) {
-        List<QuestionInfo> cached = getOpenTriviaResponse(key);
+        List<TriviaQuestion> cached = getOpenTriviaResponse(key);
         if (!cached.isEmpty()) {
             cached.remove(0);        // remove first item
             saveOpenTriviaResponse(key, cached); // update cache

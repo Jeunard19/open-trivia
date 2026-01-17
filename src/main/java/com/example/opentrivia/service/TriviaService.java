@@ -1,11 +1,9 @@
 package com.example.opentrivia.service;
 
-import com.example.opentrivia.dto.request.AnswersCheckRequest;
-import com.example.opentrivia.dto.request.QuestionsRequest;
 import com.example.opentrivia.dto.response.AnswerCheckResponse;
 import com.example.opentrivia.dto.response.OpenTriviaResponse;
-import com.example.opentrivia.dto.response.QuestionInfo;
-import com.example.opentrivia.dto.response.QuestionPrompt;
+import com.example.opentrivia.dto.response.QuestionResponse;
+import com.example.opentrivia.dto.response.TriviaQuestion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -22,11 +20,10 @@ public class TriviaService implements ITriviaService{
     private final CacheService cacheService;
 
     @Override
-    public QuestionPrompt getQuestions() {
-        List<QuestionInfo> cachedQuestions = cacheService.getOpenTriviaResponse("questions");
+    public QuestionResponse getQuestions() {
+        List<TriviaQuestion> cachedQuestions = cacheService.getOpenTriviaResponse("questions");
         if (cachedQuestions != null && !cachedQuestions.isEmpty()) {
             cacheService.saveOpenTriviaResponse("questions",cachedQuestions);
-//            cacheService.removeFirstQuestion("questions");
             return mapToQuestionPrompt( cachedQuestions.get(0));
         }
         OpenTriviaResponse response = webClient.get()
@@ -36,8 +33,6 @@ public class TriviaService implements ITriviaService{
                 .block();
         cachedQuestions = response != null ? response.getResults() : null;
         cacheService.saveOpenTriviaResponse("questions",cachedQuestions);
-//        cacheService.removeFirstQuestion("questions");
-
         return mapToQuestionPrompt(cachedQuestions != null ? cachedQuestions.get(0) : null);
     }
 
@@ -46,11 +41,11 @@ public class TriviaService implements ITriviaService{
         AnswerCheckResponse answerCheckResponse = new AnswerCheckResponse();
         answerCheckResponse.setCorrect(false);
 
-        List<QuestionInfo> cachedQuestions =
+        List<TriviaQuestion> cachedQuestions =
                 new ArrayList<>(cacheService.getOpenTriviaResponse("questions"));
 
         cacheService.removeFirstQuestion("questions");
-        Optional<QuestionInfo> questionInfo = cachedQuestions.stream()
+        Optional<TriviaQuestion> questionInfo = cachedQuestions.stream()
                 .filter(q-> q.getQuestion().equals(question)).findFirst();
         if(questionInfo.isPresent() && questionInfo.get().
                 getCorrect_answer().equals(answer)){
@@ -60,8 +55,8 @@ public class TriviaService implements ITriviaService{
         return answerCheckResponse;
     }
 
-    private QuestionPrompt mapToQuestionPrompt(QuestionInfo question){
-        QuestionPrompt questionPrompt = new QuestionPrompt();
+    private QuestionResponse mapToQuestionPrompt(TriviaQuestion question){
+        QuestionResponse questionPrompt = new QuestionResponse();
         questionPrompt.setQuestion(question.getQuestion());
 
         List<String> options = new ArrayList<>(question.getIncorrect_answers());

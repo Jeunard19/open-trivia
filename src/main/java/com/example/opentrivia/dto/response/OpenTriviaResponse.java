@@ -9,5 +9,5 @@ import java.util.List;
 @Getter
 public class OpenTriviaResponse {
     private int response_code;
-    private List<QuestionInfo> results;
+    private List<TriviaQuestion> results;
 }

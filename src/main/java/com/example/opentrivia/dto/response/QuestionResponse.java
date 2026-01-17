@@ -7,7 +7,7 @@ import java.util.List;
 
 @Setter
 @Getter
-public class QuestionPrompt {
+public class QuestionResponse {
     private String type;
     private String question;
     private List<String> options;

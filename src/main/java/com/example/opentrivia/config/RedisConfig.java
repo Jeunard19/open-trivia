@@ -1,7 +1,6 @@
 package com.example.opentrivia.config;
 
-import com.example.opentrivia.dto.response.OpenTriviaResponse;
-import com.example.opentrivia.dto.response.QuestionInfo;
+import com.example.opentrivia.dto.response.TriviaQuestion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,10 +23,10 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, List<QuestionInfo>> redisTemplate(
+    public RedisTemplate<String, List<TriviaQuestion>> redisTemplate(
             RedisConnectionFactory connectionFactory
     ) {
-        RedisTemplate<String, List<QuestionInfo>> template = new RedisTemplate<>();
+        RedisTemplate<String, List<TriviaQuestion>> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 
         template.setKeySerializer(RedisSerializer.string());
