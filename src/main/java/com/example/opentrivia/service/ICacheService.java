@@ -1,6 +1,5 @@
 package com.example.opentrivia.service;
 
-import com.example.opentrivia.dto.response.OpenTriviaResponse;
 import com.example.opentrivia.dto.response.TriviaQuestion;
 
 import java.util.List;

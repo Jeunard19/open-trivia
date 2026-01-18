@@ -18,14 +18,12 @@ public class CacheService implements ICacheService {
 
     @Override
     public void saveOpenTriviaResponse(String token, List<TriviaQuestion> questions) {
-        String key = "quiz:" + token;
-        redisTemplate.opsForValue().set(key, questions, TTL);
+        redisTemplate.opsForValue().set(token, questions, TTL);
     }
 
     @Override
     public List<TriviaQuestion> getOpenTriviaResponse(String token) {
-        String key = "quiz:" + token;
-        Object obj = redisTemplate.opsForValue().get(key);
+        Object obj = redisTemplate.opsForValue().get(token);
 
         if (obj == null) return null;
         return (List<TriviaQuestion> ) obj;
