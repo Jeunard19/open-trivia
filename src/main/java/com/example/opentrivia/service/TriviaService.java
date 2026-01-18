@@ -27,7 +27,7 @@ public class TriviaService implements ITriviaService{
             return mapToQuestionPrompt( cachedQuestions.get(0));
         }
         OpenTriviaResponse response = webClient.get()
-                .uri("/api.php?amount=3")
+                .uri("/api.php?amount=50")
                 .retrieve()
                 .bodyToMono(OpenTriviaResponse.class)
                 .block();
