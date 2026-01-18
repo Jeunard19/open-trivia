@@ -30,13 +30,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-
       - name: Build with Maven and run tests
         run: mvn clean verify -B
 
       - name: Publish Test Results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: surefire-reports
           path: target/surefire-reports
