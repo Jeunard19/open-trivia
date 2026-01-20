@@ -4,12 +4,10 @@ import com.example.opentrivia.dto.request.AnswersCheckRequest;
 import com.example.opentrivia.dto.response.AnswerCheckResponse;
 import com.example.opentrivia.dto.response.QuestionResponse;
 import com.example.opentrivia.service.ITriviaService;
-import com.example.opentrivia.service.TriviaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
