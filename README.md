@@ -82,6 +82,12 @@ http://localhost:8080
  ```bash
 docker compose -f docker-compose.test.yml up --build
 ```
+##  Live Deployment
+
+The application is deployed on Google Cloud Run:
+
+- **Frontend:** https://frontend-220740165367.europe-west1.run.app/
+- **Backend:** https://open-trivia-backend-220740165367.europe-west4.run.app
 
 
 
